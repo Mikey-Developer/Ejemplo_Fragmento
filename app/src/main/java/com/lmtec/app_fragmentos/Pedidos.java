@@ -1,11 +1,6 @@
 package com.lmtec.app_fragmentos;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+//import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,11 +32,15 @@ public class Pedidos extends Fragment {
     private String mParam2;
 
     private Button boton_pagar;
-    private EditText cantidad;
+    private EditText producto, cantidad;
     private EditText precio, iva;
     private TextView sub_total, total;
 
-    private static final String TAG = "Fragment_Pedido";
+    private Fragment fragment;
+
+    private String edit_producto, edit_cant, edit_precio, edit_iva;
+
+    private static final String TAG = "Fragment_Pedido:";
 
     private TextWatcher actualizar_menu = new TextWatcher() {
         @Override
@@ -49,24 +51,29 @@ public class Pedidos extends Fragment {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            String text_cant = cantidad.getText().toString().trim();
-            String text_precio = precio.getText().toString().trim();
-            String text_iva = iva.getText().toString().trim();
+            edit_producto = producto.getText().toString().trim();
+            edit_cant = cantidad.getText().toString().trim();
+            edit_precio = precio.getText().toString().trim();
+            edit_iva = iva.getText().toString().trim();
 
-            if(!(text_cant.isEmpty() || text_precio.isEmpty() || text_iva.isEmpty())) {
-                int _cantidad = Integer.parseInt(text_cant);
-                float _precio = Float.parseFloat(text_precio);
-                float _iva = Float.parseFloat(text_iva);
+            if(!(edit_producto.isEmpty() || edit_cant.isEmpty() || edit_precio.isEmpty() || edit_iva.isEmpty())) {
+                int _cantidad = Integer.parseInt(edit_cant);
+                float _precio = Float.parseFloat(edit_precio);
+                float _iva = Float.parseFloat(edit_iva);
 
-                Float resultado =  ((int) (((_cantidad * _precio) + 0.005f) * 100)) / 100f;
+                Float resultado = ((int) (((_cantidad * _precio) + 0.005f) * 100)) / 100f;
 
                 sub_total.setText(resultado.toString());
 
-                resultado +=    Math.round(resultado * _iva);
+                resultado += Math.round(resultado * _iva);
 
                 total.setText(resultado.toString());
+
+                boton_pagar.setEnabled(true);
             }
+
             else {
+                boton_pagar.setEnabled(false);
                 Log.i(TAG, "Esta vacio!");
                 sub_total.setText("0.00");
                 total.setText("0.00");
@@ -122,13 +129,7 @@ public class Pedidos extends Fragment {
 
         boton_pagar = v.findViewById(R.id.boton_pagar);
 
-        boton_pagar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Pago realizado!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        producto = v.findViewById(R.id.edit_producto);
         cantidad = v.findViewById(R.id.edit_cant);
         precio = v.findViewById(R.id.edit_precio);
         iva = v.findViewById(R.id.edit_iva);
@@ -139,6 +140,32 @@ public class Pedidos extends Fragment {
         cantidad.addTextChangedListener(actualizar_menu);
         precio.addTextChangedListener(actualizar_menu);
         iva.addTextChangedListener(actualizar_menu);
+
+        boton_pagar.setEnabled(false);
+
+        boton_pagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            try {
+                Bundle param = new Bundle();
+                param.putString("Producto", edit_producto);
+                param.putString("Cantidad", edit_cant);
+                param.putString("Precio", edit_precio);
+                param.putString("Iva", edit_iva);
+                param.putString("Sub-total", sub_total.getText().toString().trim());
+                param.putString("Total", total.getText().toString().trim());
+
+                fragment = new Factura();
+                fragment.setArguments(param);
+                FragmentTransaction transaccion = getFragmentManager().beginTransaction();
+                transaccion.replace(R.id.ventana_fragmento, fragment);
+                transaccion.commit();
+            } catch (Exception e){
+                Log.i(TAG, e.getMessage());
+            }
+                //Toast.makeText(getContext(), "Pago realizado!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return v;

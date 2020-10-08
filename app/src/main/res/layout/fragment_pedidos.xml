@@ -14,7 +14,7 @@
             android:id="@+id/titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="75dp"
             android:text="Productos"
             android:textColor="#4181E5"
             android:textSize="30sp"

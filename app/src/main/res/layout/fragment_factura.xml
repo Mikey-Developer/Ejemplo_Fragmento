@@ -6,15 +6,112 @@
     android:layout_height="match_parent"
     tools:context=".Factura">
 
-        <TextView
-            android:id="@+id/text_factura"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Proximamente...."
-            android:textColor="@android:color/darker_gray"
-            android:textSize="25sp"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="34dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_factura"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guia_factura_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guia_factura_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8" />
+
+        <TextView
+            android:id="@+id/titulo_factura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75sp"
+            android:text="Factura"
+            android:textColor="#4181E5"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/campo_producto"/>
+
+        <TextView
+            android:id="@+id/campo_producto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/guia_factura_2"
+            app:layout_constraintStart_toStartOf="@id/guia_factura_1"
+            app:layout_constraintTop_toBottomOf="@+id/titulo_factura"
+            app:layout_constraintBottom_toTopOf="@id/campo_cantidad"
+            />
+
+        <TextView
+            android:id="@+id/campo_cantidad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/guia_factura_2"
+            app:layout_constraintStart_toStartOf="@id/guia_factura_1"
+            app:layout_constraintTop_toBottomOf="@id/campo_producto"
+            app:layout_constraintBottom_toTopOf="@id/campo_precio"/>
+
+        <TextView
+            android:id="@+id/campo_precio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/campo_iva"
+            app:layout_constraintEnd_toEndOf="@id/guia_factura_2"
+            app:layout_constraintStart_toStartOf="@id/guia_factura_1"
+            app:layout_constraintTop_toBottomOf="@id/campo_cantidad" />
+
+        <TextView
+            android:id="@+id/campo_iva"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/guia_factura_2"
+            app:layout_constraintStart_toStartOf="@id/guia_factura_1"
+            app:layout_constraintTop_toBottomOf="@id/campo_precio"
+            app:layout_constraintBottom_toTopOf="@id/campo_sub_total"/>
+
+        <TextView
+            android:id="@+id/campo_sub_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/guia_factura_2"
+            app:layout_constraintStart_toStartOf="@id/guia_factura_1"
+            app:layout_constraintTop_toBottomOf="@id/campo_iva"
+            app:layout_constraintBottom_toTopOf="@id/campo_total" />
+
+        <TextView
+            android:id="@+id/campo_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/guia_factura_2"
+            app:layout_constraintStart_toStartOf="@id/guia_factura_1"
+            app:layout_constraintTop_toBottomOf="@id/campo_sub_total"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="75sp"
+             />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
